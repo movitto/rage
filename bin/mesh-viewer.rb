@@ -1,0 +1,91 @@
+#!/usr/bin/ruby
+# use rage to view meshes
+#
+# Flags:
+#  -h --help
+#  -m --mesh [file]
+#
+# Multiple -m options may be specified
+#
+# Copyright (C) 2010 Mohammed Morsi <movitto@yahoo.com>
+# Licensed under the GPLv3+ http://www.gnu.org/licenses/gpl.txt
+
+require 'rubygems'
+require 'optparse'
+
+require 'lib/rage'
+
+include RAGE
+
+# process cmd line args and run main routines
+def main()
+  meshes = []
+
+  # setup cmd line options
+  opts = OptionParser.new do |opts|
+    opts.on("-h", "--help", "Print help message") do
+       puts opts
+       exit
+    end
+    opts.on("-m", "--mesh [uri]", "URI to the mesh file to load (eg file://path)") do |path|
+       meshes.push path
+    end
+  end
+
+  # TODO display any number of meshes (set coordinates/camera appropriately)
+
+  # parse cmd line
+  begin
+    opts.parse!(ARGV)
+  rescue OptionParser::InvalidOption
+    puts opts
+    return
+  end
+
+  if meshes.size == 0
+    puts "at least one valid mesh path required"
+    puts opts
+    return
+  end
+
+  resources = []
+  tx = ty = tz = 0
+  meshes.each do |mesh|
+    resource :type => :mesh, :uri => mesh do |mr|
+      resources << mr
+      boundaries = mr.boundaries
+      scale = mr.scale
+      tx += (boundaries[0] - boundaries[3]) * scale[0]
+      ty += (boundaries[1] - boundaries[4]) * scale[1]
+      tz += (boundaries[2] - boundaries[5]) * scale[2]
+    end
+  end
+
+  # add in addition tenth for padding
+  tx += 0.1 * tx
+  ty += 0.1 * ty
+  tz += 0.1 * tz
+
+  # go through each object, set center to iterator * total length / (number_of_meshes - 1) -  total_length / 2
+  resources.each_index do |i|
+    mx = my = mz = 0
+    unless resources.size == 1
+      mx = i * tx / (resources.size - 1) - tx / 2
+      my = i * ty / (resources.size - 1) - ty / 2
+      mz = i * tz / (resources.size - 1) - tz / 2
+    end
+    resources[i].show_at :x => mx, :y => my, :z => mz
+  end
+
+  window(:width => 512, :height => 512) { |win|
+     win.create_viewport
+  }.show
+
+  game.run
+end
+
+begin
+  main()
+rescue Exception => e
+ puts "#{e} #{e.backtrace.join("\n")}"
+end

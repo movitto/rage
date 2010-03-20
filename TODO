@@ -1,0 +1,10 @@
+TODO list:
+
+ - texture / material support
+ - skybox and other sky support
+ - associated more types of entities w/ locations, lighting
+ - audio subsystem
+ - user interface support (forms)
+ - generic input handler callback interface, more mouse/keyboard/joystick events
+ - more opengl features & support
+ - general bugfixes, enhancements, optimizations, etc...

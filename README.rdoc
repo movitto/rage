@@ -1,0 +1,48 @@
+== RAGE - The Ruby Advanced Gaming Engine
+
+Copyright (C) 2010 Mohammed Morsi <movitto@yahoo.com>
+
+RAGE is made available under the GNU GENERAL PUBLIC LICENSE
+as published by the Free Software Foundation, either version 3
+of the License, or (at your option) any later version.
+
+== Info
+RAGE is a Ruby dsl geared towards providing a simple / intuitive 
+interface to perform 3D graphics and many other types of operations
+in the context of a simulation/gaming environment.
+
+The goal is to provide the developer w/ simple syntax that they can use to easily
+display a window w/ viewports, render 3D geometries and textures/materials,
+handle user input, play audio files, and execute a slew of other actions.
+
+== Installation
+
+To install rage simply run:
+   gem install rage
+
+Source code is available via:
+   git clone http://github.com/movitto/rage
+
+== Usage
+
+  # create a mesh w/ blender and export it to /home/user/mesh.x3d using File > Export > X3D
+
+  require 'rage'
+  
+  resource :type => :mesh, :uri => "file:///home/user/mesh.x3d" do |mesh|
+    mesh.show_at 0, 0, 0
+  end
+
+  window(:width => 512, :height => 512) { |win|
+     win.create_viewport
+  }.show
+
+  game.run
+
+== Mesh Viewer
+
+Also see bin/mesh-viewer.rb in the project which can be run like so:
+
+  ruby bin/mesh-viewer.rb -m file:///path/to/rage/spec/content/cube.x3d
+
+The -m may be specified any number of times to view multiple meshes simultaneously.
