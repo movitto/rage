@@ -25,8 +25,8 @@ class Loader
 
     return data
 
-    rescue URI::InvalidURIError
-       raise Exceptions::InvalidResourceUri
+    #rescue URI::InvalidURIError
+    #   raise Exceptions::InvalidResourceUri
  end
 
 end # class loader

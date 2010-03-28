@@ -26,7 +26,7 @@ class Camera
      depth = (Window.width + Window.height)/4
      @projection = [45, Window.width / Window.height, 1, depth]
 
-     # initialize lookat params
+     # initial position
      @pos    = [0, 0, 1]
 
      # initial rotation params

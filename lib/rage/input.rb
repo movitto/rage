@@ -35,8 +35,8 @@ class InputHandler
 
         # if left button is down, rotate camera
         if left_pressed
-          xpos, ypos, zpos    = to_3d_coordinates(event.x, event.y)
-          oxpos, oypos, ozpos = to_3d_coordinates(event.x-event.xrel, event.y-event.yrel)
+          xpos, ypos, zpos    = RAGE::to_3d_coordinates(event.x, event.y)
+          oxpos, oypos, ozpos = RAGE::to_3d_coordinates(event.x-event.xrel, event.y-event.yrel)
 
           if xpos > oxpos
              Game.current_viewport.camera.xrotate += 1

@@ -22,7 +22,7 @@ Rake::RDocTask.new do |rd|
     rd.rdoc_files.include("README.rdoc", "lib/**/*.rb")
 end
 
-PKG_FILES = FileList['bin/**/*', 'lib/**/*.rb', 'COPYING', 'LICENSE', 'Rakefile', 'README.rdoc', 'spec/**/*.rb' ]
+PKG_FILES = FileList['bin/**/*', 'lib/**/*.rb', 'COPYING', 'LICENSE', 'Rakefile', 'README.rdoc', 'spec/**/*' ]
 
 SPEC = Gem::Specification.new do |s|
     s.name = GEM_NAME

@@ -137,5 +137,6 @@ def to_3d_coordinates(x2, y2)
   x3, y3, z3 = Glu.gluUnProject x2, y2, depth[0], model_view, projection, viewport
   return [x3, y3, z3]
 end
+module_function :to_3d_coordinates
 
 end
