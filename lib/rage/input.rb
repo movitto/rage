@@ -5,29 +5,80 @@
 
 module RAGE
 
-# FIXME turn into callback interface
-
 # Handles and redirects user events to registered callbacks.
 class InputHandler
 
+  class_attr :handlers
+
+  def self.<<(handler)
+    set_defaults
+    @@handlers << handler
+  end
+
+  def self.clear
+    set_defaults
+    @@handlers.clear
+  end
+
   # Invoked during main game execution cycle to handle any SDL input events
   def self.handle(event)
+    set_defaults
+    @@handlers.each { |h| h.handle(event) }
+  end
 
-     @@left_button_pressed  = false unless defined? @@left_button_pressed
-     @@right_button_pressed = false unless defined? @@right_button_pressed
+  private
 
+    def self.set_defaults
+     # TODO at some point these default handlers should probably be removed
+     @@handlers ||= [InputHandlers::TerminationInputHandler, InputHandlers::CommonOpenGlInputHandler, InputHandlers::SimpleCameraInputHandler]
+    end
+
+end
+
+module InputHandlers
+
+# Input handler providing ability to Terminate game on quit related events, including
+# * SDL quit event (window close, etc)
+# * 'Q' or 'ESC' keys pressed
+class TerminationInputHandler
+  def self.handle(event)
      case event
      when SDL::Event2::Quit
         exit
-
      when SDL::Event2::KeyDown
         case event.sym
         when SDL::Key::Q, SDL::Key::ESCAPE
           exit
+        end
+     end
+  end
+end
+
+# Input handler providing common opengl related operations, including
+# * 'W' key toggles wireframe mode on / off
+class CommonOpenGlInputHandler
+  def self.handle(event)
+     case event
+     when SDL::Event2::KeyDown
+        case event.sym
         when SDL::Key::W
           Game.wireframe_mode= !Game.wireframe_mode
         end
+     end
+  end
+end
 
+# Input handler providing the following simple controls
+# * Mouse wheel in/out - zoom camera in/out
+# * Hold left mouse button & drag, rotate camera
+# * Hold right mouse button & drag, pan camera
+class SimpleCameraInputHandler
+
+  def self.handle(event)
+     @@left_button_pressed  = false unless defined? @@left_button_pressed
+     @@right_button_pressed = false unless defined? @@right_button_pressed
+
+     case event
      when SDL::Event::MouseMotion
         # get state of mouse buttons
         left_pressed  = ((event.state & SDL::Mouse::BUTTON_LMASK) != 0)
@@ -84,8 +135,10 @@ class InputHandler
           Game.current_viewport.camera.pos[2]    -= 1
         end
 
-     end 
+     end
   end
-end
+end # class SimpleCameraInputHandler
 
-end
+end # module InputHandlers
+
+end # module RAGE

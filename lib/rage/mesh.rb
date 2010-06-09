@@ -71,6 +71,11 @@ class Mesh
     return @location
   end
 
+  # Return current location coordinates associated w/ the mesh
+  def coordinates
+    [@location.x, @location.y, @location.z]
+  end
+
 
   # Return center point of mesh from mesh translation provided in mesh 
   # and op_translation

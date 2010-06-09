@@ -35,6 +35,8 @@ class Game
   def self.run
     Gl.glEnable( Gl::GL_TEXTURE_2D )
     Gl.glEnable(Gl::GL_DEPTH_TEST)
+    Gl.glEnable(Gl::GL_BLEND);
+    Gl.glBlendFunc(Gl::GL_SRC_ALPHA, Gl::GL_ONE_MINUS_SRC_ALPHA);
     Gl.glDepthMask(Gl::GL_TRUE)
 
     @@wireframe_mode = false

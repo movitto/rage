@@ -14,7 +14,7 @@ class Window
   # Viewports arrays
   class_attr :viewports
 
-  # Set attributes on window, which may include 
+  # Set attributes on window, which may include
   # * :width
   # * :height
   def self.set_attrs(args = {})
@@ -35,7 +35,9 @@ class Window
   def self.show
     SDL.init(SDL::INIT_VIDEO)
     SDL.setGLAttr(SDL::GL_DOUBLEBUFFER,1)
-    @@screen = SDL::Screen.open(width,height,32,SDL::OPENGL)
+    # make sdl pickup keys being held as multiple key events (TODO make this optional)
+    SDL::Key.enableKeyRepeat(SDL::Key::DEFAULT_REPEAT_DELAY / 2, SDL::Key::DEFAULT_REPEAT_INTERVAL / 2)
+    @@screen = SDL::Screen.open(width,height,32,SDL::OPENGL | SDL::SWSURFACE)
 
     @@black = ResourcesManager.instance.load_resource :type => :color, :color => [0,0,0]
   end

@@ -35,6 +35,9 @@ class ResourcesManager
       uri  = args[:uri]
       data = Loader.load uri
       resource = Mesh.new(data)
+    elsif type == :text
+      text = args[:text]
+      resource = Text.new(:text => text)
     elsif type == :color
       color = args[:color]
       resource = Color.new(:rgb => color)

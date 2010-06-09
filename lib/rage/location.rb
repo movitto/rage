@@ -14,6 +14,9 @@ class Location
    # Mesh which to draw at location
    attr_reader :mesh
 
+   # Text which to draw at location
+   attr_reader :text
+
    # TODO lights, other entities to draw at locations
    
    # Initialize Location with argument hash, which may include
@@ -21,11 +24,15 @@ class Location
    # * :y location coordinate
    # * :z location coordinate
    # * :mesh resource to draw at location
+   # * :text resource to draw at location
    def initialize(args = {})
+      @mesh = @text = nil
+
       @x = args.has_key?(:x) ? args[:x] : 0
       @y = args.has_key?(:y) ? args[:y] : 0
       @z = args.has_key?(:z) ? args[:z] : 0
       @mesh = args[:mesh]
+      @text = args[:text]
    end
 
    # Update location w/ args, which may include
@@ -59,7 +66,10 @@ class Location
      Gl.glTranslatef(x, y, z)
 
      # draw mesh
-     mesh.draw
+     mesh.draw unless mesh.nil?
+
+     # draw text
+     text.draw unless text.nil?
 
      Gl.glPopMatrix();
    end

@@ -19,12 +19,26 @@ def viewport(args = {}, &block)
    return vp
 end
 
-# Load resource w/ specified args and invoke blockm using resource as an arg.
+# Load resource w/ specified args and invoke block using resource as an arg.
 # Finally return resource.
 def resource(args = {}, &block)
    resource = RAGE::ResourcesManager.instance.load_resource args
    block.call resource unless block.nil?
    return resource
+end
+
+# Create a RAGEi::Text instance to display on screen and invoke block
+# using it as an arg. Finally return Text object
+def text(txt, args = {}, &block)
+  rtext = RAGE::Text.new args.merge(:text => txt)
+  block.call rtext unless block.nil?
+  return rtext
+end
+
+# Return input handlers manager, which can be used to register/remove
+# user input handlers
+def input_handlers
+  RAGE::InputHandler
 end
 
 # Set attributes on Game w/ specified args and invoke block
