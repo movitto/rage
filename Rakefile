@@ -9,7 +9,7 @@ require 'rake/gempackagetask'
 
 
 GEM_NAME="rage"
-PKG_VERSION='0.1'
+PKG_VERSION='0.2'
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new('spec') do |t|
@@ -22,19 +22,24 @@ Rake::RDocTask.new do |rd|
     rd.rdoc_files.include("README.rdoc", "lib/**/*.rb")
 end
 
-PKG_FILES = FileList['bin/**/*', 'lib/**/*.rb', 'COPYING', 'LICENSE', 'Rakefile', 'README.rdoc', 'spec/**/*' ]
+PKG_FILES = FileList['lib/**/*.rb', 'COPYING', 'LICENSE', 'Rakefile', 'README.rdoc', 'spec/**/*' ]
 
 SPEC = Gem::Specification.new do |s|
     s.name = GEM_NAME
     s.version = PKG_VERSION
     s.files = PKG_FILES
+    s.executables << 'rage-mesh-viewer'
 
     s.required_ruby_version = '>= 1.8.1'
     s.required_rubygems_version = Gem::Requirement.new(">= 1.3.3")
+    s.add_development_dependency('rspec', '~> 1.3.0')
+    s.add_dependency('rubysdl', '~> 2.1.1')
+    s.add_dependency('ruby-opengl', '~> 0.60.1')
+    s.add_dependency('rxsd', '~> 0.4.1')
 
     s.author = "Mohammed Morsi"
     s.email = "movitto@yahoo.com"
-    s.date = %q{2010-03-20}
+    s.date = %q{2010-09-05}
     s.description = %q{The Ruby Advanced Gaming Engine}
     s.summary = %q{The Ruby Advanced Gaming Engine}
     s.homepage = %q{http://morsi.org/projects/RAGE}

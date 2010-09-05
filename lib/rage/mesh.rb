@@ -44,17 +44,17 @@ class Mesh
 
      # FIXME get all transformations (and groups of) under scene
      @tf = @scene.collision.transform
-     @translation = @tf.translation.to_a :type => XSDFloat
-     @scale       = @tf.scale.to_a :type => XSDFloat
+     @translation = @tf.translation.to_xa :type => XSDFloat
+     @scale       = @tf.scale.to_xa :type => XSDFloat
      #diffuse     = tf.shape.appearance.material.diffuse_color.split.collect { |c| c.to_f }
      #specular    = tf.shape.appearance.material.specular_color.split.collect { |c| c.to_f }
      #emissive    = tf.shape.appearance.material.emissive_color.split.collect { |c| c.to_f }
      @coord_index  = @tf.shape.indexed_face_set.coord_index.
-                                     to_a(:type => String, :delim => ",").
-                                     collect { |coords| a = coords.to_a(:type => XSDInteger); a[0...a.size-1]}.flatten # cut off the last -1
+                                     to_xa(:type => String, :delim => ",").
+                                     collect { |coords| a = coords.to_xa(:type => XSDInteger); a[0...a.size-1]}.flatten # cut off the last -1
      @coord_point  = @tf.shape.indexed_face_set.coordinate.point.
-                                     to_a(:type => String, :delim => ",").
-                                     collect { |coords| coords.to_a :type => XSDFloat }.flatten
+                                     to_xa(:type => String, :delim => ",").
+                                     collect { |coords| coords.to_xa :type => XSDFloat }.flatten
   end
 
   # Create location w/ specified args, associated mesh w/ it and add it to the LocationsManager
